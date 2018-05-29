@@ -1,6 +1,8 @@
 package token
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/base64"
 	"encoding/json"
 	"strconv"
@@ -15,7 +17,7 @@ var hours int
 
 //通过一个协程创建token密钥
 func CreateTokenKeys(hour int) {
-  hours = hour
+  	hours = hour
 	go timerKeys()
 }
 
@@ -48,7 +50,7 @@ func Token(params string) string {
 
 	base64Str := headBase64 + "." + payloadBase64 + "~" + keyBase64
 
-	signatureBase64 := ToSha256(base64Str)
+	signatureBase64 := toSha256(base64Str)
 	return headBase64 + "." + payloadBase64 + "." + signatureBase64
 }
 
@@ -67,7 +69,7 @@ func ValidateToken(token string) bool {
 		keyBase64 := base64.StdEncoding.EncodeToString([]byte(keys[i]))
 		base64Str := strings.Split(token, ".")[0] + "." + strings.Split(token, ".")[1] + "~" + keyBase64
 		signatureBase64 := strings.Split(token, ".")[2]
-		if signatureBase64 == ToSha256(base64Str) {
+		if signatureBase64 == toSha256(base64Str) {
 			result = true
 		}
 	}
@@ -81,4 +83,12 @@ func TokenPayloadParams(token string) map[string]interface{} {
 	params := make(map[string]interface{})
 	json.Unmarshal(payload, &params)
 	return params
+}
+
+//sha256算法加密
+func toSha256(str string) string {
+	bytes := []byte(str)
+	hash := sha256.Sum256(bytes)
+	result := hex.EncodeToString(hash[:])
+	return result
 }
