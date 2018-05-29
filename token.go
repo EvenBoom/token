@@ -41,7 +41,7 @@ func Token(params map[string]string) string {
 	sec := time.Now().Add(hour).Unix()
 	expStr := strconv.FormatInt(sec, 10)
 	head := `{"typ":"JWT","alg":"HS256"}`
-	payload := `{"exp":"` + expStr + `",` + params + `}`
+	payload := `{"exp":"` + expStr + `"`
 	
 	for k, v := range params {
 		payload = payload + `",` + `"` + k +`":"` + v +`"`
