@@ -32,7 +32,7 @@ func timerKeys() {
 	timerKeys()
 }
 
-//生成密钥
+//生成密钥，params为payload参数，若返回""，请返回error信息，而不是返回一个""token
 func Token(params map[string]string) string {
   
 	hour, _ := time.ParseDuration(strconv.FormatInt(hours, 10)+"h")
@@ -47,6 +47,9 @@ func Token(params map[string]string) string {
 	
 	payload = payload + `}`
 	
+	if(keys[0] == "") {//提高用户体验，防止用户得到一个key为空的token而又验证失败
+		return ""
+	}
 	key := keys[0]
 
 	headBase64 := base64.StdEncoding.EncodeToString([]byte(head))
@@ -71,7 +74,7 @@ func ValidateToken(token string) bool {
 	}
 
 	for i := 0; i < 2; i++ {
-		if(keys[i] == ""){
+		if(keys[i] == ""){//防止系统启动过快，并且刚好有人在请求token时而产生的系统安全问题
 			continue
 		}
 		keyBase64 := base64.StdEncoding.EncodeToString([]byte(keys[i]))
