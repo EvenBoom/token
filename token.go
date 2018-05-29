@@ -16,7 +16,7 @@ var keys [2]string
 var hours int64
 
 //通过一个协程创建token密钥
-func CreateTokenKeys(hour int) {
+func CreateTokenKeys(hour int64) {
   	hours = hour
 	go timerKeys()
 }
@@ -37,7 +37,7 @@ func timerKeys() {
 //生成密钥
 func Token(params string) string {
   
-	hour, _ := time.ParseDuration(strconv.Itoa(hours))
+	hour, _ := time.ParseDuration(strconv.FormatInt(int64, 10))
 	sec := time.Now().Add(hour).Unix()
 	expStr := strconv.FormatInt(sec, 10)
 	head := `{"typ":"JWT","alg":"HS256"}`
