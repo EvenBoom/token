@@ -71,7 +71,7 @@ func ValidateToken(token string) bool {
 	}
 
 	for i := 0; i < 2; i++ {
-		if(key[i] == ""){
+		if(keys[i] == ""){
 			continue
 		}
 		keyBase64 := base64.StdEncoding.EncodeToString([]byte(keys[i]))
