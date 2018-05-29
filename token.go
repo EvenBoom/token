@@ -61,13 +61,13 @@ func Token(params map[string]string) string {
 
 //验证token
 func ValidateToken(token string) bool {
-	result := false
+	
 	if token == "" {
-		return result
+		return false
 	}
 	exp, _ := strconv.ParseInt(TokenPayloadParams(token)["exp"].(string), 10, 64)
 	if exp < time.Now().Unix() {
-		return result
+		return false
 	}
 
 	for i := 0; i < 2; i++ {
@@ -75,10 +75,10 @@ func ValidateToken(token string) bool {
 		base64Str := strings.Split(token, ".")[0] + "." + strings.Split(token, ".")[1] + "~" + keyBase64
 		signatureBase64 := strings.Split(token, ".")[2]
 		if signatureBase64 == toSha256(base64Str) {
-			result = true
+			return true
 		}
 	}
-	return result
+	return false
 }
 
 //获取token参数
