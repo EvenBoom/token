@@ -44,7 +44,7 @@ func Token(params map[string]string) string {
 	payload := `{"exp":"` + expStr + `"`
 	
 	for k, v := range params {
-		payload = payload + `",` + `"` + k +`":"` + v +`"`
+		payload = payload + `,` + `"` + k +`":"` + v +`"`
 	}
 	
 	payload = payload + `}`
