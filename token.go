@@ -13,7 +13,7 @@ import (
 )
 
 var keys [2]string
-var hours int
+var hours int64
 
 //通过一个协程创建token密钥
 func CreateTokenKeys(hour int) {
@@ -29,7 +29,7 @@ func timerKeys() {
 		keys[1] = keys[0]
 	}
 	keys[0] = uuid.Must(uuid.NewV4()).String()
-	timer := time.NewTimer(hours * time.Hour)
+	timer := time.NewTimer(time.Duration(hours) * time.Hour)
 	<-timer.C
 	timerKeys()
 }
