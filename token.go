@@ -23,9 +23,7 @@ func CreateTokenKeys(hour int64) {
 
 //每隔一段时间更换密钥
 func timerKeys() {
-	if keys[0] == "" {
-		keys[1] = uuid.Must(uuid.NewV4()).String()
-	} else {
+	if keys[0] != "" {
 		keys[1] = keys[0]
 	}
 	keys[0] = uuid.Must(uuid.NewV4()).String()
