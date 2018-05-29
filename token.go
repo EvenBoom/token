@@ -35,13 +35,20 @@ func timerKeys() {
 }
 
 //生成密钥
-func Token(params string) string {
+func Token(params map[string]string) string {
   
 	hour, _ := time.ParseDuration(strconv.FormatInt(hours, 10))
 	sec := time.Now().Add(hour).Unix()
 	expStr := strconv.FormatInt(sec, 10)
 	head := `{"typ":"JWT","alg":"HS256"}`
 	payload := `{"exp":"` + expStr + `",` + params + `}`
+	
+	for k, v := range params {
+		payload = payload + `",` + `"` + k +`":"` + v +`"`
+	}
+	
+	payload = payload + `}`
+	
 	key := keys[0]
 
 	headBase64 := base64.StdEncoding.EncodeToString([]byte(head))
