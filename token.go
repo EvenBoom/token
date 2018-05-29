@@ -37,7 +37,7 @@ func timerKeys() {
 //生成密钥
 func Token(params string) string {
   
-	hour, _ := time.ParseDuration(strconv.FormatInt(int64, 10))
+	hour, _ := time.ParseDuration(strconv.FormatInt(hours, 10))
 	sec := time.Now().Add(hour).Unix()
 	expStr := strconv.FormatInt(sec, 10)
 	head := `{"typ":"JWT","alg":"HS256"}`
