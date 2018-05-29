@@ -71,6 +71,9 @@ func ValidateToken(token string) bool {
 	}
 
 	for i := 0; i < 2; i++ {
+		if(key[i] == ""){
+			continue
+		}
 		keyBase64 := base64.StdEncoding.EncodeToString([]byte(keys[i]))
 		base64Str := strings.Split(token, ".")[0] + "." + strings.Split(token, ".")[1] + "~" + keyBase64
 		signatureBase64 := strings.Split(token, ".")[2]
